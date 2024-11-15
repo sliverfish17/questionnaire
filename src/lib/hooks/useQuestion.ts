@@ -1,7 +1,10 @@
 import {useRouter} from 'next/router';
 import {useCallback} from 'react';
 
-import {answerQuestion} from '@/lib/features/questionnaire/questionnaireSlice';
+import {
+  answerQuestion,
+  setBackNavigation,
+} from '@/lib/features/questionnaire/questionnaireSlice';
 import {PAGES} from '@/lib/helpers/Pages';
 import {Answer, Question} from '@/lib/types/Question';
 
@@ -21,8 +24,11 @@ export const useQuestion = (question: Question) => {
           nextQuestionId: answer.nextQuestionId,
         })
       );
+
       if (answer.nextQuestionId) {
         router.push(`${PAGES.QUESTION}/${answer.nextQuestionId}`);
+      } else {
+        console.log('Finsih logic here');
       }
     },
     [dispatch, question, router]
@@ -34,8 +40,14 @@ export const useQuestion = (question: Question) => {
     }
   }, [question, router]);
 
+  const handleBack = useCallback(() => {
+    dispatch(setBackNavigation());
+    router.push(`${PAGES.QUESTION}/${question.id}`);
+  }, [dispatch, question, router]);
+
   return {
     handleAnswerClick,
     handleNext,
+    handleBack,
   };
 };

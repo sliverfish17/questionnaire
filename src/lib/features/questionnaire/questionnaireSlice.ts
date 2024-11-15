@@ -14,7 +14,7 @@ interface SetQuestionIdsPayload {
 
 interface QuestionnaireState {
   currentQuestionId: number | null;
-  prevQuestionId: number | null;
+  previousQuestionIds: number[];
   responses: {
     [questionId: number]: {
       answerId: number | null;
@@ -28,7 +28,7 @@ interface QuestionnaireState {
 const initialState: QuestionnaireState = {
   firstQuestionId: null,
   currentQuestionId: null,
-  prevQuestionId: null,
+  previousQuestionIds: [],
   responses: {},
 };
 
@@ -49,20 +49,44 @@ const questionnaireSlice = createSlice({
         nextQuestionId,
       };
 
-      state.prevQuestionId = questionId;
+      if (state.currentQuestionId === null) {
+        state.currentQuestionId = state.firstQuestionId;
+      }
+
+      if (state.currentQuestionId !== null) {
+        state.previousQuestionIds.push(state.currentQuestionId);
+      }
+
       state.currentQuestionId = nextQuestionId;
     },
+
     resetQuestionnaire: state => {
       state.responses = {};
       state.currentQuestionId = state.firstQuestionId;
-      state.prevQuestionId = null;
+      state.previousQuestionIds = [];
     },
     setCurrentAndPrevQuestionId: (
       state,
       action: PayloadAction<SetQuestionIdsPayload>
     ) => {
-      state.currentQuestionId = action.payload.currentQuestionId;
-      state.prevQuestionId = action.payload.prevQuestionId;
+      const {currentQuestionId, prevQuestionId} = action.payload;
+
+      state.currentQuestionId = currentQuestionId;
+
+      if (prevQuestionId !== null) {
+        state.previousQuestionIds.push(prevQuestionId);
+      }
+    },
+    setBackNavigation: state => {
+      const prevQuestionIds = [...state.previousQuestionIds];
+
+      const prevQuestionId = prevQuestionIds.pop();
+
+      if (prevQuestionId !== undefined) {
+        state.currentQuestionId = prevQuestionId;
+      }
+
+      state.previousQuestionIds = prevQuestionIds;
     },
   },
 });
@@ -72,5 +96,6 @@ export const {
   resetQuestionnaire,
   setFirstQuestionId,
   setCurrentAndPrevQuestionId,
+  setBackNavigation,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
