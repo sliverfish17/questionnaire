@@ -10,7 +10,7 @@ export default {
     extend: {
       colors: {
         bg: '#FFF0F0',
-        text: '#333333',
+        typography: '#333333',
         button: {
           regular: '#EAEEF7',
           border: '#E0E0E0',

@@ -1,10 +1,10 @@
 import {useRouter} from 'next/router';
 import {ComponentType, useEffect} from 'react';
 
-import {setCurrentAndPrevQuestionId} from '@/lib/features/questionnaire/questionnaireSlice';
-import {PAGES} from '@/lib/helpers/Pages';
-import {useAppDispatch, useAppSelector} from '@/lib/hooks/useStore';
-import {QuestionPageProps} from '@/lib/types/Question';
+import {setCurrentAndPrevQuestionId} from '../features/questionnaire/questionnaireSlice';
+import {PAGES} from '../helpers/Pages';
+import {useAppDispatch, useAppSelector} from '../hooks/useStore';
+import {QuestionPageProps} from '../types/Question';
 
 function withQuestionNavigation<P extends QuestionPageProps>(
   WrappedComponent: ComponentType<P>
@@ -12,7 +12,7 @@ function withQuestionNavigation<P extends QuestionPageProps>(
   const ComponentWithNavigation = (props: P) => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const {currentQuestionId, prevQuestionId} = useAppSelector(
+    const {currentQuestionId, previousQuestionIds, responses} = useAppSelector(
       state => state.questionnaire
     );
 
@@ -20,10 +20,11 @@ function withQuestionNavigation<P extends QuestionPageProps>(
       const handlePopState = () => {
         const questionId = parseInt(router.query.id as string, 10);
         if (!isNaN(questionId)) {
+          console.log(questionId, 'hoc set');
           dispatch(
             setCurrentAndPrevQuestionId({
               currentQuestionId: questionId,
-              prevQuestionId: prevQuestionId,
+              previousQuestionIds: previousQuestionIds,
             })
           );
         }
@@ -34,17 +35,27 @@ function withQuestionNavigation<P extends QuestionPageProps>(
       return () => {
         window.removeEventListener('popstate', handlePopState);
       };
-    }, [dispatch, prevQuestionId, router.query.id]);
+    }, [dispatch, previousQuestionIds, router.query.id]);
 
     useEffect(() => {
-      if (
-        currentQuestionId !== null &&
-        props.question.id !== currentQuestionId &&
-        props.question.id !== prevQuestionId
-      ) {
-        router.replace(`${PAGES.QUESTION}/${currentQuestionId}`);
+      if (props.question.infoPageId) {
+        const referenceResponse = responses[props.question.infoPageId];
+        const referenceNextQuestionId = referenceResponse?.nextQuestionId;
+
+        if (referenceNextQuestionId) {
+          console.log('replace');
+          router.replace(`${PAGES.QUESTION}/${referenceNextQuestionId}`);
+          return;
+        }
       }
-    }, [currentQuestionId, prevQuestionId, props.question.id, router]);
+    }, [
+      currentQuestionId,
+      previousQuestionIds,
+      props.question.id,
+      props.question.infoPageId,
+      responses,
+      router,
+    ]);
 
     return <WrappedComponent {...props} />;
   };

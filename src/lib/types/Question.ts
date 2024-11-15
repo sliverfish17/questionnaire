@@ -4,12 +4,20 @@ export interface Answer {
   nextQuestionId: number | null;
 }
 
+export const enum SCREEN_TYPE {
+  'QUESTION' = 'question',
+  'INFO' = 'info',
+}
+
 export interface Question {
   id: number;
-  screenType: 'question' | 'info';
+  infoPageId?: number;
+  screenType: SCREEN_TYPE;
   title: string;
+  description?: string;
   answers?: Answer[];
   content?: string;
+  referenceId?: number;
   nextQuestionId: number | null;
   previousQuestionId: number | null;
 }

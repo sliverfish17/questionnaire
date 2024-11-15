@@ -1,28 +1,24 @@
 import Image from 'next/image';
 import {useRouter} from 'next/router';
-import {useCallback} from 'react';
 
-import {setBackNavigation} from '@/lib/features/questionnaire/questionnaireSlice';
 import {PAGES} from '@/lib/helpers/Pages';
-import {useAppDispatch, useAppSelector} from '@/lib/hooks/useStore';
+import {useNavigation} from '@/lib/hooks/useNavigation';
+import {useAppSelector} from '@/lib/hooks/useStore';
 import {RootState} from '@/lib/store';
 
 export const Header = () => {
   const router = useRouter();
-  const {previousQuestionIds, currentQuestionId} = useAppSelector(
+  const {previousQuestionIds} = useAppSelector(
     (state: RootState) => state.questionnaire
   );
-  const dispatch = useAppDispatch();
-  const handleBack = useCallback(() => {
-    dispatch(setBackNavigation());
-
-    router.push(`${PAGES.QUESTION}/${currentQuestionId}`);
-  }, [currentQuestionId, dispatch, router]);
+  const previousQuestionId = [...previousQuestionIds].pop();
+  const {handleBack} = useNavigation(previousQuestionId || 0);
+  const questionPath = router.pathname.includes(PAGES.QUESTION);
 
   return (
     <header className="h-11 w-full bg-bg px-4 md:h-[54px]">
       <div className="relative flex h-full items-center justify-center">
-        {previousQuestionIds.length > 0 && (
+        {previousQuestionIds.length > 0 && questionPath && (
           <button
             onClick={handleBack}
             aria-label="Go back"
