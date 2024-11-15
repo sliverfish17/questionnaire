@@ -1,4 +1,4 @@
-import {useAppSelector} from '@/lib/hooks/useStore';
+import {useAppSelector} from './useStore';
 
 export const useAnswerState = (questionId: number, answerId: number) => {
   const savedAnswerId = useAppSelector(

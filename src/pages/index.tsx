@@ -1,8 +1,8 @@
 import {useRouter} from 'next/router';
 
 import {Button} from '@/components/UI/Button';
+import {useAppSelector} from '@/hooks/useStore';
 import {PAGES} from '@/lib/helpers/Pages';
-import {useAppSelector} from '@/lib/hooks/useStore';
 
 export default function HomePage() {
   const router = useRouter();

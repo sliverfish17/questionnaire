@@ -1,4 +1,4 @@
-import {Question} from '@/lib/types/Question';
+import {Question} from '@/types/Question';
 
 export const fetchQuestions = async (): Promise<Question[]> => {
   const questions = await import('../../../public/questions.json').then(

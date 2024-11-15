@@ -4,13 +4,13 @@ import React from 'react';
 
 import {Response} from '@/components/Final';
 import {Button} from '@/components/UI/Button';
+import {useRedirectIfNoResponses} from '@/hooks/useNoResponseRedirect';
+import {useAppDispatch, useAppSelector} from '@/hooks/useStore';
 import {fetchQuestions} from '@/lib/api/question';
 import {resetQuiz} from '@/lib/features/questionnaire/questionnaireSlice';
 import {PAGES} from '@/lib/helpers/Pages';
-import {useRedirectIfNoResponses} from '@/lib/hooks/useNoResponseRedirect';
-import {useAppDispatch, useAppSelector} from '@/lib/hooks/useStore';
-import {Question} from '@/lib/types/Question';
-import {parseQuestionsAndAnswers} from '@/lib/utils/parseQuestionsAndAnswers';
+import {Question} from '@/types/Question';
+import {parseQuestionsAndAnswers} from '@/utils/parseQuestionsAndAnswers';
 
 interface FinalPageProps {
   questions: Question[];

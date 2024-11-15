@@ -1,10 +1,8 @@
 import {Open_Sans} from 'next/font/google';
-import {useEffect} from 'react';
 
 import {Header} from '@/components/UI/Header';
-import {fetchQuestions} from '@/lib/api/question';
-import {setFirstQuestionId} from '@/lib/features/questionnaire/questionnaireSlice';
-import {useAppDispatch} from '@/lib/hooks/useStore';
+import {useSetIntitialQuestion} from '@/hooks/useSetInitialQuestion';
+import {useTheme} from '@/hooks/useTheme';
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -17,22 +15,13 @@ interface LayoutProps {
 }
 
 export const Layout = ({children}: LayoutProps) => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    (async () => {
-      const questions = await fetchQuestions();
-      const firstQuestionId = questions[0].id;
-      dispatch(setFirstQuestionId(firstQuestionId));
-    })();
-  }, [dispatch]);
+  useSetIntitialQuestion();
+  const {layout} = useTheme();
 
   return (
-    <>
+    <div className={`${layout} min-h-screen`}>
       <Header />
-      <main className={`bg-bg py-5 font-sans ${openSans.variable}`}>
-        {children}
-      </main>
-    </>
+      <main className={`py-5 font-sans ${openSans.variable}`}>{children}</main>
+    </div>
   );
 };

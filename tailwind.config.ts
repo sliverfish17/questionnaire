@@ -11,6 +11,8 @@ export default {
       colors: {
         bg: '#FFF0F0',
         typography: '#333333',
+        info: '#FBFBFF',
+        question: '#201F1F',
         button: {
           regular: '#EAEEF7',
           border: '#E0E0E0',

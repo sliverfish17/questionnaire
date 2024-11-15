@@ -2,19 +2,27 @@ import {GetStaticPaths, GetStaticProps} from 'next';
 
 import {Answer} from '@/components/Answer';
 import {Info} from '@/components/Info';
+import withQuestionNavigation from '@/hoc/withQuestionNavigation';
+import {useRedirectIfNoResponses} from '@/hooks/useNoResponseRedirect';
+import {useQuestion} from '@/hooks/useQuestion';
+import {useAppSelector} from '@/hooks/useStore';
+import {useTheme} from '@/hooks/useTheme';
+import {useManageTheme} from '@/hooks/useThemeSwitch';
 import {fetchQuestions, findQuestionById} from '@/lib/api/question';
-import withQuestionNavigation from '@/lib/hoc/withQuestionNavigation';
-import {useRedirectIfNoResponses} from '@/lib/hooks/useNoResponseRedirect';
-import {useQuestion} from '@/lib/hooks/useQuestion';
-import {useAppSelector} from '@/lib/hooks/useStore';
-import {QuestionPageProps, SCREEN_TYPE} from '@/lib/types/Question';
-import {parseTitle} from '@/lib/utils/parseTitle';
+import {QuestionPageProps, SCREEN_TYPE} from '@/types/Question';
+import {parseTitle} from '@/utils/parseTitle';
 
 function QuestionPage({question}: QuestionPageProps) {
   const {handleAnswerClick} = useQuestion(question);
+
+  const {title} = useTheme();
+
   const {firstQuestionId, responses} = useAppSelector(
     state => state.questionnaire
   );
+
+  useManageTheme(question.screenType);
+
   useRedirectIfNoResponses(firstQuestionId, responses);
 
   const parsedTitle = parseTitle(question.title, responses);
@@ -22,19 +30,18 @@ function QuestionPage({question}: QuestionPageProps) {
   return (
     <div className="mx-auto flex max-w-[330px] flex-col items-center justify-center">
       <h1
-        className={`text-typography mb-[30px] text-2xl font-bold ${question.description ? 'text-center' : 'text-left'}`}
+        className={`mb-[30px] text-2xl font-bold ${question.description ? 'text-center' : 'text-left'} ${title}`}
       >
         {parsedTitle}
       </h1>
       {question.description && (
-        <p className="text-typography mb-[30px] text-center text-lg font-bold">
+        <p className="mb-[30px] text-center text-lg font-bold text-typography">
           {question.description}
         </p>
       )}
-      <div className="grid gap-5">
-        {question.screenType === SCREEN_TYPE.QUESTION &&
-          question.answers &&
-          question.answers.map(answer => (
+      {question.screenType === SCREEN_TYPE.QUESTION && (
+        <div className="grid gap-5">
+          {question?.answers?.map(answer => (
             <Answer
               answer={answer}
               handleAnswerClick={handleAnswerClick}
@@ -42,7 +49,8 @@ function QuestionPage({question}: QuestionPageProps) {
               questionId={question.id}
             />
           ))}
-      </div>
+        </div>
+      )}
       {question.screenType === SCREEN_TYPE.INFO && question.content && (
         <Info
           questionId={question.id}

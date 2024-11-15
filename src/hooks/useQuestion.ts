@@ -3,7 +3,7 @@ import {useCallback} from 'react';
 
 import {answerQuestion} from '@/lib/features/questionnaire/questionnaireSlice';
 import {PAGES} from '@/lib/helpers/Pages';
-import {Answer, Question} from '@/lib/types/Question';
+import {Answer, Question} from '@/types/Question';
 
 import {useAppDispatch} from './useStore';
 

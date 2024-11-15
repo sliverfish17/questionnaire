@@ -1,9 +1,10 @@
 import {useRouter} from 'next/router';
 import React from 'react';
 
+import {Button} from '@/components/UI/Button';
+import {useAppDispatch, useAppSelector} from '@/hooks/useStore';
 import {setCurrentAndPrevQuestionId} from '@/lib/features/questionnaire/questionnaireSlice';
 import {PAGES} from '@/lib/helpers/Pages';
-import {useAppDispatch, useAppSelector} from '@/lib/hooks/useStore';
 
 interface InfoProps {
   content: string;
@@ -26,7 +27,6 @@ export const Info: React.FC<InfoProps> = ({
     if (referenceId) {
       const referenceResponse = responses[referenceId];
       const referenceNextQuestionId = referenceResponse?.nextQuestionId;
-      console.log(referenceId, questionId);
       dispatch(
         setCurrentAndPrevQuestionId({
           currentQuestionId: referenceId,
@@ -44,14 +44,14 @@ export const Info: React.FC<InfoProps> = ({
 
   return (
     <div className="mx-auto flex max-w-[330px] flex-col items-center justify-center">
-      <div className="space-y-4 text-center">
-        <p>{content}</p>
-        <button
+      <div className="space-y-4 text-center text-info">
+        <p className="mb-10 font-sans">{content}</p>
+        <Button
           onClick={handleNext}
           className="mt-6 rounded-md bg-white px-6 py-2 text-gray-800 shadow-md hover:bg-gray-200"
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );

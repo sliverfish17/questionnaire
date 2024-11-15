@@ -1,35 +1,18 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-interface AnswerPayload {
-  questionId: number;
-  answerId: number | null;
-  answerValue: string;
-  nextQuestionId: number | null;
-}
-
-interface SetQuestionIdsPayload {
-  currentQuestionId: number | null;
-  previousQuestionIds: number[];
-}
-
-interface QuestionnaireState {
-  currentQuestionId: number | null;
-  previousQuestionIds: number[];
-  responses: {
-    [questionId: number]: {
-      answerId: number | null;
-      answerValue: string;
-      nextQuestionId: number | null;
-    };
-  };
-  firstQuestionId: number | null;
-}
+import {
+  AnswerPayload,
+  QuestionnaireState,
+  SetQuestionIdsPayload,
+} from '@/types/Store';
+import {THEME} from '@/types/Theme';
 
 const initialState: QuestionnaireState = {
   firstQuestionId: null,
   currentQuestionId: null,
   previousQuestionIds: [],
   responses: {},
+  theme: THEME.QUESTION,
 };
 
 const questionnaireSlice = createSlice({
@@ -60,6 +43,9 @@ const questionnaireSlice = createSlice({
         state.previousQuestionIds.push(state.currentQuestionId);
       }
       state.currentQuestionId = nextQuestionId;
+    },
+    setTheme: (state, action: PayloadAction<THEME>) => {
+      state.theme = action.payload;
     },
     resetQuestionnaire: state => {
       state.responses = {};
@@ -110,6 +96,7 @@ export const {
   setCurrentAndPrevQuestionId,
   setBackNavigation,
   resetQuiz,
+  setTheme,
 } = questionnaireSlice.actions;
 
 export default questionnaireSlice.reducer;

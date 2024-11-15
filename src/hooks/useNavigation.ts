@@ -3,7 +3,7 @@ import {useCallback} from 'react';
 
 import {setBackNavigation} from '@/lib/features/questionnaire/questionnaireSlice';
 import {PAGES} from '@/lib/helpers/Pages';
-import {Question} from '@/lib/types/Question';
+import {Question} from '@/types/Question';
 
 import {useAppDispatch} from './useStore';
 

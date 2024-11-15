@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {Button} from '@/components/UI/Button';
-import {useAnswerState} from '@/lib/hooks/useAnswerState';
-import {Answer as IAnswer} from '@/lib/types/Question';
+import {useAnswerState} from '@/hooks/useAnswerState';
+import {Answer as IAnswer} from '@/types/Question';
 
 interface AnswerProps {
   answer: IAnswer;

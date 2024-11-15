@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import {useRouter} from 'next/router';
 
+import {useNavigation} from '@/hooks/useNavigation';
+import {useAppSelector} from '@/hooks/useStore';
+import {useTheme} from '@/hooks/useTheme';
 import {PAGES} from '@/lib/helpers/Pages';
-import {useNavigation} from '@/lib/hooks/useNavigation';
-import {useAppSelector} from '@/lib/hooks/useStore';
 import {RootState} from '@/lib/store';
+
+import {ArrowIcon} from '../Icons';
 
 export const Header = () => {
   const router = useRouter();
@@ -13,21 +16,22 @@ export const Header = () => {
   );
   const previousQuestionId = [...previousQuestionIds].pop();
   const {handleBack} = useNavigation(previousQuestionId || 0);
-  const questionPath = router.pathname.includes(PAGES.QUESTION);
+  const hadQuestionPath = router.pathname.includes(PAGES.QUESTION);
+  const {arrowColor, logoPath} = useTheme();
 
   return (
-    <header className="h-11 w-full bg-bg px-4 md:h-[54px]">
+    <header className="h-11 w-full bg-transparent px-4 md:h-[54px]">
       <div className="relative flex h-full items-center justify-center">
-        {previousQuestionIds.length > 0 && questionPath && (
+        {previousQuestionIds.length > 0 && hadQuestionPath && (
           <button
             onClick={handleBack}
             aria-label="Go back"
             className="absolute left-4 top-4"
           >
-            <Image width={24} height={24} alt="Go Back" src="/chevron.svg" />
+            <ArrowIcon fill={arrowColor} />
           </button>
         )}
-        <Image width={24} height={24} alt="Logo" src="/logo.svg" />
+        <Image width={24} height={24} alt="Logo" src={logoPath} />
       </div>
     </header>
   );

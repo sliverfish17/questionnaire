@@ -1,4 +1,4 @@
-import {Question, SCREEN_TYPE} from '@/lib/types/Question';
+import {Question, SCREEN_TYPE} from '@/types/Question';
 
 import {parseTitle} from './parseTitle';
 

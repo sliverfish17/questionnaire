@@ -11,10 +11,6 @@ body {
   @apply h-full overflow-x-hidden;
 }
 
-body {
-  @apply bg-bg;
-}
-
 main {
   @apply flex-grow flex flex-col;
 }
