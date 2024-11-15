@@ -5,12 +5,13 @@ import {useEffect} from 'react';
 import {Answer} from '@/components/Answer';
 import {fetchQuestions, findQuestionById} from '@/lib/api/question';
 import {PAGES} from '@/lib/helpers/Pages';
+import withQuestionNavigation from '@/lib/hoc/withQuestionNavigation';
 import {useQuestion} from '@/lib/hooks/useQuestion';
 import {useAppSelector} from '@/lib/hooks/useStore';
 import {QuestionPageProps} from '@/lib/types/Question';
 import {parseTitle} from '@/lib/utils/parseTitle';
 
-export default function QuestionPage({question}: QuestionPageProps) {
+function QuestionPage({question}: QuestionPageProps) {
   const {handleAnswerClick, handleNext} = useQuestion(question);
   const {firstQuestionId, responses} = useAppSelector(
     state => state.questionnaire
@@ -18,10 +19,11 @@ export default function QuestionPage({question}: QuestionPageProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (Object.keys(responses).length === 0 && firstQuestionId) {
+    if (!Object.keys(responses).length && firstQuestionId) {
       router.replace(`${PAGES.QUESTION}/${firstQuestionId}`);
     }
-  }, [responses, firstQuestionId, router]);
+  }, [firstQuestionId, responses]);
+
   const parsedTitle = parseTitle(question.title, responses);
 
   return (
@@ -35,6 +37,7 @@ export default function QuestionPage({question}: QuestionPageProps) {
               answer={answer}
               handleAnswerClick={handleAnswerClick}
               key={answer.id}
+              questionId={question.id}
             />
           ))}
       </div>
@@ -53,12 +56,14 @@ export default function QuestionPage({question}: QuestionPageProps) {
   );
 }
 
+export default withQuestionNavigation(QuestionPage);
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const questions = await fetchQuestions();
   const paths = questions.map(question => ({
     params: {id: question.id.toString()},
   }));
-  return {paths, fallback: false};
+  return {paths, fallback: true};
 };
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
@@ -68,5 +73,5 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return {notFound: true};
   }
 
-  return {props: {question}};
+  return {props: {question, questionId: question.id}};
 };
