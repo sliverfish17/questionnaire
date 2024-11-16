@@ -31,7 +31,7 @@ function QuestionPage({question}: QuestionPageProps) {
   return (
     <div className="mx-auto flex max-w-[330px] flex-col items-center justify-center">
       <Head>
-        <title>{`Question №{question.id}`}</title>
+        <title>{`Question №${question.id}`}</title>
         <meta
           property="og:title"
           content={`Questionnaire question №${question.id}`}
