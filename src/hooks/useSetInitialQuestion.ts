@@ -10,8 +10,8 @@ export const useSetIntitialQuestion = () => {
   useEffect(() => {
     const initializeFirstQuestion = async () => {
       const questions = await fetchQuestions();
-      const firstQuestionId = questions[0].id;
-      dispatch(setFirstQuestionId(firstQuestionId));
+      const [firstQuestion] = questions;
+      dispatch(setFirstQuestionId(firstQuestion.id));
     };
 
     initializeFirstQuestion();

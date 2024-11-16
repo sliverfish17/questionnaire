@@ -20,7 +20,7 @@ export const Layout = ({children}: LayoutProps) => {
   const {layout} = useTheme();
 
   return (
-    <div className={`${layout} min-h-screen`}>
+    <div className={`min-h-screen ${layout}`}>
       <Head>
         <meta
           name="viewport"
@@ -28,7 +28,9 @@ export const Layout = ({children}: LayoutProps) => {
         />
       </Head>
       <Header />
-      <main className={`py-5 font-sans ${openSans.variable}`}>{children}</main>
+      <main className={`px-4 py-5 font-sans ${openSans.variable}`}>
+        {children}
+      </main>
     </div>
   );
 };

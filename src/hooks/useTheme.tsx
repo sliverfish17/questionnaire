@@ -21,10 +21,10 @@ export const useTheme = () => {
       };
     default:
       return {
-        logoPath: '/images/logo-white.png',
-        arrowColor: '#FAFAFA',
-        title: '#FBFBFF',
-        layout: 'bg-active-gradient text-info',
+        logoPath: '/images/logo-black.png',
+        arrowColor: '#333333',
+        title: '#201F1F',
+        layout: 'bg-bg text-question',
       };
   }
 };
