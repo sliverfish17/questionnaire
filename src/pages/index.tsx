@@ -23,7 +23,9 @@ export default function HomePage() {
           content="Quiz meant to help with mental health"
         />
       </Head>
-      <h1 className="text-2xl font-bold ">Welcome to the Questionnaire</h1>
+      <h1 className="text-center text-2xl font-bold">
+        Welcome to the Questionnaire
+      </h1>
       <p className="text-sm">
         Click &quot;Start&quot; to begin the questionnaire.
       </p>
