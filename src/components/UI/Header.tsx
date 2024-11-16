@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import {useRouter} from 'next/router';
 
+import {ArrowIcon} from '@/components/UI/Icons';
 import {useNavigation} from '@/hooks/useNavigation';
 import {useAppSelector} from '@/hooks/useStore';
 import {useTheme} from '@/hooks/useTheme';
 import {PAGES} from '@/lib/helpers/Pages';
 import {RootState} from '@/lib/store';
-
-import {ArrowIcon} from '../Icons';
 
 export const Header = () => {
   const router = useRouter();

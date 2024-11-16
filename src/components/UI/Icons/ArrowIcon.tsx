@@ -6,11 +6,11 @@ interface ArrowIconProps {
   height?: number;
 }
 
-export const ArrowIcon: React.FC<ArrowIconProps> = ({
+export const ArrowIcon = ({
   fill = '#333333',
   width = 24,
   height = 24,
-}) => {
+}: ArrowIconProps) => {
   return (
     <svg
       width={width}

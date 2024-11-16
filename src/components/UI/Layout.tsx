@@ -1,4 +1,5 @@
 import {Open_Sans} from 'next/font/google';
+import Head from 'next/head';
 
 import {Header} from '@/components/UI/Header';
 import {useSetIntitialQuestion} from '@/hooks/useSetInitialQuestion';
@@ -20,6 +21,12 @@ export const Layout = ({children}: LayoutProps) => {
 
   return (
     <div className={`${layout} min-h-screen`}>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=375,initial-scale=1,minimum-scale=0.5,maximum-scale=5,user-scalable=yes"
+        />
+      </Head>
       <Header />
       <main className={`py-5 font-sans ${openSans.variable}`}>{children}</main>
     </div>

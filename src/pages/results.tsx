@@ -2,7 +2,7 @@ import {GetStaticProps} from 'next';
 import {useRouter} from 'next/router';
 import React from 'react';
 
-import {Response} from '@/components/Final';
+import {TestResult} from '@/components/TestResult';
 import {Button} from '@/components/UI/Button';
 import {useRedirectIfNoResponses} from '@/hooks/useNoResponseRedirect';
 import {useAppDispatch, useAppSelector} from '@/hooks/useStore';
@@ -41,7 +41,7 @@ const Results = ({questions}: FinalPageProps) => {
       </h1>
       <ul className="mb-4 grid gap-4">
         {parsedQuestions.map(question => (
-          <Response key={question.id} {...question} />
+          <TestResult key={question.id} {...question} />
         ))}
       </ul>
       <Button onClick={restartQuiz} className="w-full">

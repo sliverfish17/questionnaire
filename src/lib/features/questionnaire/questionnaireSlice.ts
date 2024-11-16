@@ -36,6 +36,7 @@ const questionnaireSlice = createSlice({
       if (state.currentQuestionId === null) {
         state.currentQuestionId = state.firstQuestionId;
       }
+
       if (
         state.currentQuestionId !== null &&
         !state.previousQuestionIds.includes(state.currentQuestionId)

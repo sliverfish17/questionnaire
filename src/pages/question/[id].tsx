@@ -1,7 +1,8 @@
 import {GetStaticPaths, GetStaticProps} from 'next';
+import Head from 'next/head';
 
 import {Answer} from '@/components/Answer';
-import {Info} from '@/components/Info';
+import {InfoDetails} from '@/components/InfoDetails';
 import withQuestionNavigation from '@/hoc/withQuestionNavigation';
 import {useRedirectIfNoResponses} from '@/hooks/useNoResponseRedirect';
 import {useQuestion} from '@/hooks/useQuestion';
@@ -29,6 +30,18 @@ function QuestionPage({question}: QuestionPageProps) {
 
   return (
     <div className="mx-auto flex max-w-[330px] flex-col items-center justify-center">
+      <Head>
+        <title>Question №{question.id}</title>
+        <meta
+          property="og:title"
+          content={`Questionnaire question №${question.id}`}
+          key="title"
+        />
+        <meta
+          name="description"
+          content={`Questionnaire question №${question.id}`}
+        />
+      </Head>
       <h1
         className={`mb-[30px] text-2xl font-bold ${question.description ? 'text-center' : 'text-left'} ${title}`}
       >
@@ -52,7 +65,7 @@ function QuestionPage({question}: QuestionPageProps) {
         </div>
       )}
       {question.screenType === SCREEN_TYPE.INFO && question.content && (
-        <Info
+        <InfoDetails
           questionId={question.id}
           referenceId={question.referenceId}
           content={question.content}
