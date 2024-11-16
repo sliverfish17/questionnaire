@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import {useRouter} from 'next/router';
 
 import {Button} from '@/components/UI/Button';
@@ -14,6 +15,14 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 text-typography">
+      <Head>
+        <title>Super Quiz!</title>
+        <meta property="og:title" content="Super Quiz!" key="title" />
+        <meta
+          name="description"
+          content="Quiz meant to help with mental health"
+        />
+      </Head>
       <h1 className="text-2xl font-bold ">Welcome to the Questionnaire</h1>
       <p className="text-sm">
         Click &quot;Start&quot; to begin the questionnaire.

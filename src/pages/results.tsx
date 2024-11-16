@@ -1,4 +1,5 @@
 import {GetStaticProps} from 'next';
+import Head from 'next/head';
 import {useRouter} from 'next/router';
 import React from 'react';
 
@@ -36,6 +37,11 @@ const Results = ({questions}: FinalPageProps) => {
 
   return (
     <div className="mx-auto max-w-lg">
+      <Head>
+        <title>Final results</title>
+        <meta property="og:title" content="Final results" key="title" />
+        <meta name="description" content="List of your final quiz answers" />
+      </Head>
       <h1 className="mb-10 text-center text-3xl font-bold">
         Final Questions Summary
       </h1>
